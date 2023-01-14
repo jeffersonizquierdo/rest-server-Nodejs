@@ -1,9 +1,19 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
+//controllers
 const { getUsers, putUser, postUser, deleteUser, patchUser} = require('../controllers/users.controller');
+//helpers
 const { isRoleValid, existsEmail, existsUserById } = require('../helpers/dbValidator');
-const { validateFields } = require('../middlewares/validateFields');
+//middlewares
+// const { validateFields } = require('../middlewares/validateFields');
+// const validateJWT = require('../middlewares/validateJWT');
+// const { validateRoles, hasRole } = require('../middlewares/validateRoles');
+// optimizacion de imports
+const {validateFields,
+        validateJWT, 
+        isAdministrator, 
+        hasRole} = require('../middlewares');
 
 
 const router = Router();
@@ -34,6 +44,9 @@ router.put('/:id', [
 
 
 router.delete('/:id', [
+    validateJWT,
+    //isAdministrator,
+    hasRole('DEVELOPER_ROLE', 'USER_ROLE'),
     check('id', 'Not is a ID valid').isMongoId(),
     check('id').custom( existsUserById ),
     validateFields

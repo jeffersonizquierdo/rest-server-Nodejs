@@ -78,15 +78,20 @@ const putUser = async(req, res = response) => {
 const deleteUser = async(req, res) => {
 
     const id = req.params.id;
+    // uthentication
+    const uid = req.uid;
+    console.log('uid: ', uid);
+    const autenticatedUser = req.autenticatedUser;
 
-    console.log(id);
+    if (!autenticatedUser) return res.status(401).json( { msg : 'invalid token - user not exists'} )
+    if (!autenticatedUser.status) return res.status(401).json( { msg : 'invalid token - state : false'} )
 
-    // const userDelete = await User.findByIdAndDelete(id);
     const userDelete = await User.findByIdAndUpdate( id, {status: false} )
 
     res.json({
         msg : 'user deleted successfully',
-        userDelete
+        userDelete,
+        autenticatedUser
     })
 };
 

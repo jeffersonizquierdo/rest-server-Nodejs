@@ -24,14 +24,6 @@ const existsUserById = async(id = '') => {
 }
 
 
-
-
-
-
-
-
-
-
 module.exports = {
     isRoleValid,
     existsEmail,
