@@ -3,8 +3,8 @@ const bcryptjs = require('bcryptjs');
 
 const User = require('../models/User.models')
 const { generateJWT } = require('../helpers/generateJWT');
-
 const { googleVerify } = require('../helpers/googleVerify');
+
 
 const login = async(req, res = response) => {
 
@@ -37,10 +37,7 @@ const googleSingIn = async ( req, res = response ) => {
 
     try {
         const { id_token } = req.body;
-
-
         const { name, img, email} = await googleVerify(id_token);
-
         let user = await User.findOne( {email} );
 
         if (!user){
@@ -56,19 +53,16 @@ const googleSingIn = async ( req, res = response ) => {
 
             console.log(user);
             await user.save();
-        }
-
+        }   
         if (!user.status) {
 
             return res.status(401).json({
                 msg : 'Talk to administrator - Blocked user'
             })
-
-        }
+        };
 
         const token = await generateJWT(user.id);
 
-        
         res.json({
     
             msg : 'Todo bien',

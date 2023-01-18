@@ -66,7 +66,7 @@ const putUser = async(req, res = response) => {
 
         // encriptar nueva contraseña
         const salt = bcryptjs.genSaltSync();
-        others.password = await bcryptjs.hashSync( password, salt );
+        others.password = await bcryptjs.hashSync( password, salt);
     }
     const user = await User.findByIdAndUpdate( id, others );
 

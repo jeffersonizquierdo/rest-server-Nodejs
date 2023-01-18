@@ -10,4 +10,4 @@ const rolesSchema = Schema({
 });
 
 
-module.exports = model( 'Role', rolesSchema )
+module.exports = model( 'Role', rolesSchema );
